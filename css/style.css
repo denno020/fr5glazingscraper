@@ -1,0 +1,192 @@
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Thin.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 100;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-ThinItalic.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 100;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-ExtraLight.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 200;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-ExtraLightItalic.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 200;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Light.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 300;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-LightItalic.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 300;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Regular.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Italic.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 400;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Medium.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 500;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-MediumItalic.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 500;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-SemiBold.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 600;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-SemiBoldItalic.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 600;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Bold.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 700;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-BoldItalic.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 700;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-ExtraBold.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 800;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-ExtraBold.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 800;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Black.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 900;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-BlackItalic.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 900;
+  font-style: italic; }
+
+html,
+body {
+  background-color: #FFFFFF;
+  color: #636B6F;
+  font-family: 'Montserrat', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  text-align: center; }
+
+.container {
+  position: relative;
+  min-height: 100vh;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column; }
+
+header {
+  text-align: center;
+  -ms-flex: 0 1 20vh;
+      flex: 0 1 20vh;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.title {
+  font-size: 84px;
+  font-weight: 100; }
+
+main {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex: 1 1 auto;
+      flex: 1 1 auto; }
+
+.input-container {
+  padding: 10px; }
+
+table {
+  border-collapse: collapse; }
+
+table,
+th,
+td {
+  border: 1px solid #DADADA;
+  padding: 5px; }
+
+footer {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex: 0 0 5vh;
+      flex: 0 0 5vh; }
+
+/*# sourceMappingURL=style.css.map */

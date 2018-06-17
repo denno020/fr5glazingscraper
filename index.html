@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>FR5 Glazing Scraper</title>
+
+  <!-- Fonts -->
+  <!--<link href="https://fonts.googleapis.com/css?family=Montserrat:100" rel="stylesheet">-->
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="js/scripts.js" async></script>
+</head>
+<body class="container">
+  <header>
+    <div class="title">
+      FR5 Glazing Extractor
+    </div>
+  </header>
+  <main id="application-body">
+    <div class="input-container">
+      <label for="north-reference">North Azimuth</label>
+      <input type="text" id="north-reference" style="text-align:center;"/>
+    </div>
+    <div class="input-container">
+      <input type="file" name="fileToUpload" id="fileToUpload">
+      <label for="fileToUpload" class="select-files-label"><span class="label-text">Select File</span></label>
+    </div>
+    <div class="input-container">
+      <button id="process">Preview</button>
+    </div>
+    <div class="input-container">
+      <div class="results-preview"></div>
+    </div>
+  </main>
+  <footer>
+    Version 1.0.0
+  </footer>
+  <template id="results-preview-template">
+    <table>
+      <thead>
+      <tr>
+        <th>Zone Name</th>
+        <th>Orientation</th>
+        <th>Height</th>
+        <th>Width</th>
+        <th>Projection</th>
+        <th>Head Height</th>
+        <th>Window Type</th>
+        <th>Ceiling Height</th>
+        <th>Eave Offset</th>
+        <th>Pergola Offset</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Populated in JS -->
+      </tbody>
+    </table>
+    <div class="input-container">
+      <button id="save">Save</button>
+    </div>
+  </template>
+</body>
+</html>
