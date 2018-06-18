@@ -929,7 +929,7 @@ var ResultsBuilder = function () {
             pergolaOffset = window.shading[0].pergolaOffset;
           }
 
-          return [zone.name, _Orientation2.default.Get(window.azimuth, reference), window.height, window.width, projection, window.headHeight, window.construction.name, window.ceilingHeight.height, eaveOffset, pergolaOffset];
+          return [zone.name, '', _Orientation2.default.Get(window.azimuth, reference), window.height, window.width, projection, window.headHeight, window.construction.name, window.ceilingHeight.height, eaveOffset, pergolaOffset];
         });
 
         // An empty windowCsv needs to be returned inside an array itself, in order to work with the flatten function
