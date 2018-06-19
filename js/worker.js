@@ -910,14 +910,16 @@ var ResultsBuilder = function () {
      * Build the zones array into a flatt array ready for conversion to CSV
      *
      * @param {array}  zones     The zones array created in ResultsBuilder.Compile()
-     * @param {string} reference Reference North azimuth
+     * @param {string} reference [Optional] Reference North azimuth. Default 0
      *
      * @returns {array}
      */
 
   }, {
     key: 'Build',
-    value: function Build(zones, reference) {
+    value: function Build(zones) {
+      var reference = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
       var csv = zones.map(function (zone) {
         var windowCsv = zone.windows.map(function (window) {
           var projection = '';
@@ -1021,7 +1023,7 @@ var Orientation = function () {
         lower: Orientation.Normalize(parseInt(reference, 10) + limits.lower)
       };
 
-      if (azimuth > vector.lower && azimuth < vector.upper) {
+      if (azimuth >= vector.lower && azimuth <= vector.upper) {
         return true;
       }
 
