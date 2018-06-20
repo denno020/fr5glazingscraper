@@ -63,11 +63,102 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Class FloorConstruction
+ */
+var FloorConstruction = function () {
+  function FloorConstruction(lineData) {
+    _classCallCheck(this, FloorConstruction);
+
+    this.id = '';
+    this.isCsog = false;
+
+    var regex = new RegExp(FloorConstruction.Regex);
+    var data = regex.exec(lineData);
+
+    this.id = data[1].trim();
+    this.isCsog = FloorConstruction.TestCsog(lineData);
+  }
+
+  /**
+   * Get the construction id that this floor construction belongs to
+   *
+   * @returns {string}
+   */
+
+
+  _createClass(FloorConstruction, [{
+    key: 'getId',
+    value: function getId() {
+      return this.id;
+    }
+
+    /**
+     * Return true/false indicating if the flooring type in the zone is CSOG
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'getIsCsog',
+    value: function getIsCsog() {
+      return this.isCsog;
+    }
+
+    /**
+     * Test the data line to see if there is concrete
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'toObject',
+    value: function toObject() {
+      return {
+        id: this.getConstructionId(),
+        isCsog: this.getIsCsog()
+      };
+    }
+  }], [{
+    key: 'TestCsog',
+    value: function TestCsog(lineData) {
+      var csogRegex = new RegExp(FloorConstruction.CSOGRegex);
+      return csogRegex.test(lineData);
+    }
+  }, {
+    key: 'Build',
+    value: function Build(data) {
+      return new FloorConstruction(data);
+    }
+  }]);
+
+  return FloorConstruction;
+}();
+
+FloorConstruction.ConstructionIdRegex = '(24[1-9]|2[5-9]\\d|3[1-3]\\d|340)';
+FloorConstruction.Regex = '^ 2' + FloorConstruction.ConstructionIdRegex;
+FloorConstruction.CSOGRegex = '^ 2(24[1-9]|2[5-9]\\d|3[1-3]\\d|340)   (.{7})*( 18 100)';
+exports.default = FloorConstruction;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -130,7 +221,7 @@ CeilingHeight.Regex = '^ 3(.{3})700(.{6})(.{6})(.{6})(.{6})';
 exports.default = CeilingHeight;
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -241,7 +332,7 @@ HorizontalShadingScheme.Regex = '^ 1 20(.{3})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6}
 exports.default = HorizontalShadingScheme;
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -296,7 +387,7 @@ WindowConstruction.Regex = '^ \\d(.{3})[ \\d]*([a-zA-Z][a-zA-Z\\-\\d]{9}[ a-zA-Z
 exports.default = WindowConstruction;
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -359,7 +450,76 @@ ZoneDetail.Regex = '^C Z00?(\\d{1,3}) => (.*)$';
 exports.default = ZoneDetail;
 
 /***/ }),
-/* 4 */
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _FloorConstruction = __webpack_require__(0);
+
+var _FloorConstruction2 = _interopRequireDefault(_FloorConstruction);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Class ZoneFloor
+ */
+var ZoneFloor = function () {
+  function ZoneFloor(lineData) {
+    _classCallCheck(this, ZoneFloor);
+
+    this.zoneId = '';
+    this.constructionId = '';
+
+    var regex = new RegExp(ZoneFloor.Regex);
+    var data = regex.exec(lineData);
+
+    this.zoneId = data[1].trim();
+    this.constructionId = data[2].trim();
+  }
+
+  _createClass(ZoneFloor, [{
+    key: 'getZoneId',
+    value: function getZoneId() {
+      return this.zoneId;
+    }
+  }, {
+    key: 'getConstructionId',
+    value: function getConstructionId() {
+      return this.constructionId;
+    }
+  }, {
+    key: 'toObject',
+    value: function toObject() {
+      return {
+        zoneId: this.getZoneId(),
+        constructionId: this.getConstructionId()
+      };
+    }
+  }], [{
+    key: 'Build',
+    value: function Build(data) {
+      return new ZoneFloor(data);
+    }
+  }]);
+
+  return ZoneFloor;
+}();
+
+ZoneFloor.Regex = ' 3(...)(' + _FloorConstruction2.default.ConstructionIdRegex + ')';
+exports.default = ZoneFloor;
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -477,7 +637,7 @@ ZoneWindow.Regex = '^ 3(.{3})(( (10)|(  [0-9])))(.{6})(.{6})(.{6})(.{6})(.{6})(.
 exports.default = ZoneWindow;
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -489,25 +649,33 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _HorizontalShadingScheme = __webpack_require__(1);
+var _HorizontalShadingScheme = __webpack_require__(2);
 
 var _HorizontalShadingScheme2 = _interopRequireDefault(_HorizontalShadingScheme);
 
-var _WindowConstruction2 = __webpack_require__(2);
+var _WindowConstruction2 = __webpack_require__(3);
 
 var _WindowConstruction3 = _interopRequireDefault(_WindowConstruction2);
 
-var _ZoneWindow2 = __webpack_require__(4);
+var _ZoneWindow2 = __webpack_require__(6);
 
 var _ZoneWindow3 = _interopRequireDefault(_ZoneWindow2);
 
-var _CeilingHeight2 = __webpack_require__(0);
+var _CeilingHeight2 = __webpack_require__(1);
 
 var _CeilingHeight3 = _interopRequireDefault(_CeilingHeight2);
 
-var _ZoneDetail2 = __webpack_require__(3);
+var _ZoneDetail2 = __webpack_require__(4);
 
 var _ZoneDetail3 = _interopRequireDefault(_ZoneDetail2);
+
+var _FloorConstruction2 = __webpack_require__(0);
+
+var _FloorConstruction3 = _interopRequireDefault(_FloorConstruction2);
+
+var _ZoneFloor2 = __webpack_require__(5);
+
+var _ZoneFloor3 = _interopRequireDefault(_ZoneFloor2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -593,6 +761,34 @@ var LooksLike = function () {
     }
 
     /**
+     * Test if the data line looks like a floor construction line
+     *
+     * @param {string} lineData The data line to test
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'FloorConstruction',
+    value: function FloorConstruction(lineData) {
+      return LooksLike.Test(lineData, _FloorConstruction3.default.Regex);
+    }
+
+    /**
+     * Test if the data line looks like a zone floor line
+     *
+     * @param {string} lineData The data line to test
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'ZoneFloor',
+    value: function ZoneFloor(lineData) {
+      return LooksLike.Test(lineData, _ZoneFloor3.default.Regex);
+    }
+
+    /**
      * Run the regex test against the data
      *
      * @param {string} data  The data to test
@@ -639,6 +835,14 @@ var LooksLike = function () {
         return 'ZoneDetail';
       }
 
+      if (LooksLike.FloorConstruction(data)) {
+        return 'FloorConstruction';
+      }
+
+      if (LooksLike.ZoneFloor(data)) {
+        return 'ZoneFloor';
+      }
+
       return false;
     }
   }]);
@@ -649,7 +853,7 @@ var LooksLike = function () {
 exports.default = LooksLike;
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -664,33 +868,41 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
 
 
-var _ScratchFileLine = __webpack_require__(9);
+var _ScratchFileLine = __webpack_require__(12);
 
 var _ScratchFileLine2 = _interopRequireDefault(_ScratchFileLine);
 
-var _LooksLike = __webpack_require__(5);
+var _LooksLike = __webpack_require__(7);
 
 var _LooksLike2 = _interopRequireDefault(_LooksLike);
 
-var _WindowConstruction = __webpack_require__(2);
+var _WindowConstruction = __webpack_require__(3);
 
 var _WindowConstruction2 = _interopRequireDefault(_WindowConstruction);
 
-var _ZoneWindow = __webpack_require__(4);
+var _ZoneWindow = __webpack_require__(6);
 
 var _ZoneWindow2 = _interopRequireDefault(_ZoneWindow);
 
-var _HorizontalShadingScheme = __webpack_require__(1);
+var _HorizontalShadingScheme = __webpack_require__(2);
 
 var _HorizontalShadingScheme2 = _interopRequireDefault(_HorizontalShadingScheme);
 
-var _CeilingHeight = __webpack_require__(0);
+var _CeilingHeight = __webpack_require__(1);
 
 var _CeilingHeight2 = _interopRequireDefault(_CeilingHeight);
 
-var _ZoneDetail = __webpack_require__(3);
+var _ZoneDetail = __webpack_require__(4);
 
 var _ZoneDetail2 = _interopRequireDefault(_ZoneDetail);
+
+var _FloorConstruction = __webpack_require__(0);
+
+var _FloorConstruction2 = _interopRequireDefault(_FloorConstruction);
+
+var _ZoneFloor = __webpack_require__(5);
+
+var _ZoneFloor2 = _interopRequireDefault(_ZoneFloor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -750,6 +962,18 @@ var Parser = function () {
       }).map(function (zoneDetail) {
         return _ZoneDetail2.default.Build(zoneDetail);
       });
+
+      this.floorConstructions = dataLines.filter(function (line) {
+        return _LooksLike2.default.ReverseLookup(line) === 'FloorConstruction';
+      }).map(function (floorConstruction) {
+        return _FloorConstruction2.default.Build(floorConstruction);
+      });
+
+      this.zoneFloors = dataLines.filter(function (line) {
+        return _LooksLike2.default.ReverseLookup(line) === 'ZoneFloor';
+      }).map(function (zoneFloor) {
+        return _ZoneFloor2.default.Build(zoneFloor);
+      });
     }
 
     /**
@@ -790,6 +1014,16 @@ var Parser = function () {
     value: function getZoneDetails() {
       return this.zoneDetails;
     }
+  }, {
+    key: 'getFloorConstructions',
+    value: function getFloorConstructions() {
+      return this.floorConstructions;
+    }
+  }, {
+    key: 'getZoneFloors',
+    value: function getZoneFloors() {
+      return this.zoneFloors;
+    }
 
     /**
      * Return all data in an object that can be deconstructed
@@ -805,7 +1039,9 @@ var Parser = function () {
         zoneWindows: this.getZoneWindows(),
         shading: this.getShading(),
         ceilingHeights: this.getCeilingHeights(),
-        zoneDetails: this.getZoneDetails()
+        zoneDetails: this.getZoneDetails(),
+        floorConstructions: this.getFloorConstructions(),
+        zoneFloors: this.getZoneFloors()
       };
     }
   }]);
@@ -816,7 +1052,7 @@ var Parser = function () {
 exports.default = Parser;
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -830,11 +1066,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Orientation = __webpack_require__(8);
+var _Orientation = __webpack_require__(11);
 
 var _Orientation2 = _interopRequireDefault(_Orientation);
 
-var _utils = __webpack_require__(10);
+var _GroundFloor = __webpack_require__(10);
+
+var _GroundFloor2 = _interopRequireDefault(_GroundFloor);
+
+var _utils = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -859,11 +1099,13 @@ var ResultsBuilder = function () {
     /**
      * Compile the various arrays into a single array
      *
-     * @param windowConstructions
-     * @param zoneWindows
-     * @param shading
-     * @param ceilingHeights
-     * @param zoneDetails
+     * @param {array} windowConstructions
+     * @param {array} zoneWindows
+     * @param {array} shading
+     * @param {array} ceilingHeights
+     * @param {array} zoneDetails
+     * @param {array} floorConstructions
+     * @param {array} zoneFloors
      *
      * @returns {array}
      *
@@ -874,7 +1116,9 @@ var ResultsBuilder = function () {
           zoneWindows = _ref.zoneWindows,
           shading = _ref.shading,
           ceilingHeights = _ref.ceilingHeights,
-          zoneDetails = _ref.zoneDetails;
+          zoneDetails = _ref.zoneDetails,
+          floorConstructions = _ref.floorConstructions,
+          zoneFloors = _ref.zoneFloors;
 
       return zoneDetails.map(function (zone) {
         // Filter the zone windows for only windows in this zone, and then map the window construction, shading and ceiling height details
@@ -898,10 +1142,21 @@ var ResultsBuilder = function () {
           });
         });
 
+        var floors = zoneFloors.filter(function (zoneFloor) {
+          return zoneFloor.zoneId === zone.id;
+        }).map(function (zoneFloor) {
+          var construction = floorConstructions.filter(function (floorCon) {
+            return floorCon.id === zoneFloor.constructionId;
+          })[0];
+
+          return _extends({}, zoneFloor, construction);
+        });
+
         return {
           id: zone.getId(),
           name: zone.getName(),
-          windows: windows
+          windows: windows,
+          onGroundFloor: _GroundFloor2.default.Test(floors)
         };
       });
     }
@@ -931,7 +1186,7 @@ var ResultsBuilder = function () {
             pergolaOffset = window.shading[0].pergolaOffset;
           }
 
-          return [zone.name, '', _Orientation2.default.Get(window.azimuth, reference), window.height, window.width, projection, window.headHeight, window.construction.name, window.ceilingHeight.height, eaveOffset, pergolaOffset];
+          return [zone.name, '', _Orientation2.default.Get(window.azimuth, reference), window.height, window.width, projection, window.headHeight, window.construction.name, window.ceilingHeight.height, eaveOffset, pergolaOffset, zone.onGroundFloor ? '0' : ''];
         });
 
         // An empty windowCsv needs to be returned inside an array itself, in order to work with the flatten function
@@ -948,7 +1203,53 @@ var ResultsBuilder = function () {
 exports.default = ResultsBuilder;
 
 /***/ }),
-/* 8 */
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Class GroundFloor
+ */
+var GroundFloor = function () {
+  function GroundFloor() {
+    _classCallCheck(this, GroundFloor);
+  }
+
+  _createClass(GroundFloor, null, [{
+    key: "Test",
+
+
+    /**
+     * Test if any of the provided floors have a CSOG construction, indicating the zone is likely on the ground floor
+     *
+     * @param {array} floors The floors to check for CSOG
+     *
+     * @returns {boolean}
+     */
+    value: function Test(floors) {
+      return floors.filter(function (floor) {
+        return floor.isCsog;
+      }).length > 0;
+    }
+  }]);
+
+  return GroundFloor;
+}();
+
+exports.default = GroundFloor;
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1023,11 +1324,7 @@ var Orientation = function () {
         lower: Orientation.Normalize(parseInt(reference, 10) + limits.lower)
       };
 
-      if (azimuth >= vector.lower && azimuth <= vector.upper) {
-        return true;
-      }
-
-      return false;
+      return azimuth >= vector.lower && azimuth <= vector.upper;
     }
 
     /**
@@ -1067,7 +1364,7 @@ Orientation.CONST__N_W = { lower: 293, upper: 337 };
 exports.default = Orientation;
 
 /***/ }),
-/* 9 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1079,29 +1376,37 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _CeilingHeight = __webpack_require__(0);
+var _CeilingHeight = __webpack_require__(1);
 
 var _CeilingHeight2 = _interopRequireDefault(_CeilingHeight);
 
-var _HorizontalShadingScheme = __webpack_require__(1);
+var _HorizontalShadingScheme = __webpack_require__(2);
 
 var _HorizontalShadingScheme2 = _interopRequireDefault(_HorizontalShadingScheme);
 
-var _LooksLike = __webpack_require__(5);
+var _LooksLike = __webpack_require__(7);
 
 var _LooksLike2 = _interopRequireDefault(_LooksLike);
 
-var _WindowConstruction = __webpack_require__(2);
+var _WindowConstruction = __webpack_require__(3);
 
 var _WindowConstruction2 = _interopRequireDefault(_WindowConstruction);
 
-var _ZoneWindow = __webpack_require__(4);
+var _ZoneWindow = __webpack_require__(6);
 
 var _ZoneWindow2 = _interopRequireDefault(_ZoneWindow);
 
-var _ZoneDetail = __webpack_require__(3);
+var _ZoneDetail = __webpack_require__(4);
 
 var _ZoneDetail2 = _interopRequireDefault(_ZoneDetail);
+
+var _FloorConstruction = __webpack_require__(0);
+
+var _FloorConstruction2 = _interopRequireDefault(_FloorConstruction);
+
+var _ZoneFloor = __webpack_require__(5);
+
+var _ZoneFloor2 = _interopRequireDefault(_ZoneFloor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1147,6 +1452,14 @@ var ScratchFileLine = function () {
         return _ZoneDetail2.default.Build(data);
       }
 
+      if (_LooksLike2.default.FloorConstruction(data)) {
+        return _FloorConstruction2.default.Build(data);
+      }
+
+      if (_LooksLike2.default.ZoneFloor(data)) {
+        return _ZoneFloor2.default.Build(data);
+      }
+
       return false;
     }
   }]);
@@ -1157,7 +1470,7 @@ var ScratchFileLine = function () {
 exports.default = ScratchFileLine;
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1183,21 +1496,23 @@ var flatten = exports.flatten = function flatten(arr) {
 };
 
 /***/ }),
-/* 11 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Parser = __webpack_require__(6);
+var _Parser = __webpack_require__(8);
 
 var _Parser2 = _interopRequireDefault(_Parser);
 
-var _ResultsBuilder = __webpack_require__(7);
+var _ResultsBuilder = __webpack_require__(9);
 
 var _ResultsBuilder2 = _interopRequireDefault(_ResultsBuilder);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 onmessage = function onmessage(_ref) {
   var data = _ref.data;
@@ -1209,7 +1524,14 @@ onmessage = function onmessage(_ref) {
     parser.process();
 
     var zones = _ResultsBuilder2.default.Compile(parser.getAllData());
-    var results = _ResultsBuilder2.default.Build(zones, data.reference);
+    var groundFloor = zones.filter(function (zone) {
+      return zone.onGroundFloor;
+    });
+    var otherFloor = zones.filter(function (zone) {
+      return !zone.onGroundFloor;
+    });
+    var sorted = [].concat(_toConsumableArray(groundFloor), _toConsumableArray(otherFloor));
+    var results = _ResultsBuilder2.default.Build(sorted, data.reference);
 
     postMessage({ results: results });
   };
