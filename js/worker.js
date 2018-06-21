@@ -173,6 +173,141 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
+ * Class to parse window information inside a zone section
+ */
+var ZoneWindow = function () {
+  // This value isn't used, just here to it can hold an empty cell in the output CSV
+  function ZoneWindow(lineData) {
+    _classCallCheck(this, ZoneWindow);
+
+    this.zoneId = '';
+    this.windowId = '';
+    this.height = '';
+    this.width = '';
+    this.azimuth = '';
+    this.headHeight = '';
+    this.horizShading1Id = '';
+    this.horizShading2Id = '';
+
+    var regex = new RegExp(ZoneWindow.Regex);
+    var data = regex.exec(lineData);
+
+    this.zoneId = data[ZoneWindow.CONST__ZONE_ID].trim();
+    this.windowId = data[ZoneWindow.CONST__WINDOW_ID].trim();
+    this.height = data[ZoneWindow.CONST__HEIGHT].trim();
+    this.width = data[ZoneWindow.CONST__WIDTH].trim();
+    this.azimuth = data[ZoneWindow.CONST__AZIMUTH].trim();
+    this.horizShading1Id = data[ZoneWindow.CONST__HORZ_SHADING_1].trim();
+    this.horizShading2Id = data[ZoneWindow.CONST__HORZ_SHADING_2].trim();
+  }
+
+  _createClass(ZoneWindow, [{
+    key: 'getZoneId',
+    value: function getZoneId() {
+      return this.zoneId;
+    }
+  }, {
+    key: 'getWindowId',
+    value: function getWindowId() {
+      return this.windowId;
+    }
+  }, {
+    key: 'getHeight',
+    value: function getHeight() {
+      return this.height;
+    }
+  }, {
+    key: 'getWidth',
+    value: function getWidth() {
+      return this.width;
+    }
+  }, {
+    key: 'getAzimuth',
+    value: function getAzimuth() {
+      return this.azimuth;
+    }
+  }, {
+    key: 'getHeadHeight',
+    value: function getHeadHeight() {
+      return this.headHeight;
+    }
+  }, {
+    key: 'getHorizShading1Id',
+    value: function getHorizShading1Id() {
+      return this.horizShading1Id;
+    }
+  }, {
+    key: 'getHorizShading2Id',
+    value: function getHorizShading2Id() {
+      return this.horizShading2Id;
+    }
+  }, {
+    key: 'toObject',
+    value: function toObject() {
+      return {
+        zoneId: this.getZoneId(),
+        windowId: this.getWindowId(),
+        height: this.getHeight(),
+        width: this.getWidth(),
+        azimuth: this.getAzimuth(),
+        headHeight: this.getHeadHeight(),
+        horizShading1Id: this.getHorizShading1Id(),
+        horizShading2Id: this.getHorizShading2Id()
+      };
+    }
+  }], [{
+    key: 'Build',
+    value: function Build(data) {
+      return new ZoneWindow(data);
+    }
+
+    /**
+     * Determine the Head Height of a window from the height of the window and the eave offset
+     *
+     * @param {string} windowHeight The height of the window
+     * @param {string} eaveOffset   The eave offset of the window
+     *
+     * @returns {number}
+     */
+
+  }, {
+    key: 'HeadHeight',
+    value: function HeadHeight(windowHeight, eaveOffset) {
+      var windowHeightFloat = windowHeight === '' ? 0 : parseFloat(windowHeight);
+      var eaveOffsetFloat = eaveOffset === '' ? 0 : parseFloat(eaveOffset);
+      return (windowHeightFloat + eaveOffsetFloat).toFixed(2).toString();
+    }
+  }]);
+
+  return ZoneWindow;
+}();
+
+ZoneWindow.CONST__ZONE_ID = 1;
+ZoneWindow.CONST__WINDOW_ID = 2;
+ZoneWindow.CONST__HEIGHT = 6;
+ZoneWindow.CONST__WIDTH = 7;
+ZoneWindow.CONST__AZIMUTH = 8;
+ZoneWindow.CONST__HORZ_SHADING_1 = 9;
+ZoneWindow.CONST__HORZ_SHADING_2 = 10;
+ZoneWindow.Regex = '^ 3(.{3})(( (10)|(  [0-9])))(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})';
+exports.default = ZoneWindow;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
  * Class CeilingHeight
  */
 var CeilingHeight = function () {
@@ -221,7 +356,7 @@ CeilingHeight.Regex = '^ 3(.{3})700(.{6})(.{6})(.{6})(.{6})';
 exports.default = CeilingHeight;
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -332,7 +467,7 @@ HorizontalShadingScheme.Regex = '^ 1 20(.{3})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6}
 exports.default = HorizontalShadingScheme;
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -387,7 +522,7 @@ WindowConstruction.Regex = '^ \\d(.{3})[ \\d]*([a-zA-Z][a-zA-Z\\-\\d]{9}[ a-zA-Z
 exports.default = WindowConstruction;
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -450,7 +585,7 @@ ZoneDetail.Regex = '^C Z00?(\\d{1,3}) => (.*)$';
 exports.default = ZoneDetail;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -519,124 +654,6 @@ ZoneFloor.Regex = ' 3(...)(' + _FloorConstruction2.default.ConstructionIdRegex +
 exports.default = ZoneFloor;
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * Class to parse window information inside a zone section
- */
-var ZoneWindow = function () {
-  // This value isn't used, just here to it can hold an empty cell in the output CSV
-  function ZoneWindow(lineData) {
-    _classCallCheck(this, ZoneWindow);
-
-    this.zoneId = '';
-    this.windowId = '';
-    this.height = '';
-    this.width = '';
-    this.azimuth = '';
-    this.headHeight = '';
-    this.horizShading1Id = '';
-    this.horizShading2Id = '';
-
-    var regex = new RegExp(ZoneWindow.Regex);
-    var data = regex.exec(lineData);
-
-    this.zoneId = data[ZoneWindow.CONST__ZONE_ID].trim();
-    this.windowId = data[ZoneWindow.CONST__WINDOW_ID].trim();
-    this.height = data[ZoneWindow.CONST__HEIGHT].trim();
-    this.width = data[ZoneWindow.CONST__WIDTH].trim();
-    this.azimuth = data[ZoneWindow.CONST__AZIMUTH].trim();
-    this.horizShading1Id = data[ZoneWindow.CONST__HORZ_SHADING_1].trim();
-    this.horizShading2Id = data[ZoneWindow.CONST__HORZ_SHADING_2].trim();
-  }
-
-  _createClass(ZoneWindow, [{
-    key: 'getZoneId',
-    value: function getZoneId() {
-      return this.zoneId;
-    }
-  }, {
-    key: 'getWindowId',
-    value: function getWindowId() {
-      return this.windowId;
-    }
-  }, {
-    key: 'getHeight',
-    value: function getHeight() {
-      return this.height;
-    }
-  }, {
-    key: 'getWidth',
-    value: function getWidth() {
-      return this.width;
-    }
-  }, {
-    key: 'getAzimuth',
-    value: function getAzimuth() {
-      return this.azimuth;
-    }
-  }, {
-    key: 'getHeadHeight',
-    value: function getHeadHeight() {
-      return this.headHeight;
-    }
-  }, {
-    key: 'getHorizShading1Id',
-    value: function getHorizShading1Id() {
-      return this.horizShading1Id;
-    }
-  }, {
-    key: 'getHorizShading2Id',
-    value: function getHorizShading2Id() {
-      return this.horizShading2Id;
-    }
-  }, {
-    key: 'toObject',
-    value: function toObject() {
-      return {
-        zoneId: this.getZoneId(),
-        windowId: this.getWindowId(),
-        height: this.getHeight(),
-        width: this.getWidth(),
-        azimuth: this.getAzimuth(),
-        headHeight: this.getHeadHeight(),
-        horizShading1Id: this.getHorizShading1Id(),
-        horizShading2Id: this.getHorizShading2Id()
-      };
-    }
-  }], [{
-    key: 'Build',
-    value: function Build(data) {
-      return new ZoneWindow(data);
-    }
-  }]);
-
-  return ZoneWindow;
-}();
-
-ZoneWindow.CONST__ZONE_ID = 1;
-ZoneWindow.CONST__WINDOW_ID = 2;
-ZoneWindow.CONST__HEIGHT = 6;
-ZoneWindow.CONST__WIDTH = 7;
-ZoneWindow.CONST__AZIMUTH = 8;
-ZoneWindow.CONST__HORZ_SHADING_1 = 9;
-ZoneWindow.CONST__HORZ_SHADING_2 = 10;
-ZoneWindow.Regex = '^ 3(.{3})(( (10)|(  [0-9])))(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})(.{6})';
-exports.default = ZoneWindow;
-
-/***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -649,23 +666,23 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _HorizontalShadingScheme = __webpack_require__(2);
+var _HorizontalShadingScheme = __webpack_require__(3);
 
 var _HorizontalShadingScheme2 = _interopRequireDefault(_HorizontalShadingScheme);
 
-var _WindowConstruction2 = __webpack_require__(3);
+var _WindowConstruction2 = __webpack_require__(4);
 
 var _WindowConstruction3 = _interopRequireDefault(_WindowConstruction2);
 
-var _ZoneWindow2 = __webpack_require__(6);
+var _ZoneWindow2 = __webpack_require__(1);
 
 var _ZoneWindow3 = _interopRequireDefault(_ZoneWindow2);
 
-var _CeilingHeight2 = __webpack_require__(1);
+var _CeilingHeight2 = __webpack_require__(2);
 
 var _CeilingHeight3 = _interopRequireDefault(_CeilingHeight2);
 
-var _ZoneDetail2 = __webpack_require__(4);
+var _ZoneDetail2 = __webpack_require__(5);
 
 var _ZoneDetail3 = _interopRequireDefault(_ZoneDetail2);
 
@@ -673,7 +690,7 @@ var _FloorConstruction2 = __webpack_require__(0);
 
 var _FloorConstruction3 = _interopRequireDefault(_FloorConstruction2);
 
-var _ZoneFloor2 = __webpack_require__(5);
+var _ZoneFloor2 = __webpack_require__(6);
 
 var _ZoneFloor3 = _interopRequireDefault(_ZoneFloor2);
 
@@ -876,23 +893,23 @@ var _LooksLike = __webpack_require__(7);
 
 var _LooksLike2 = _interopRequireDefault(_LooksLike);
 
-var _WindowConstruction = __webpack_require__(3);
+var _WindowConstruction = __webpack_require__(4);
 
 var _WindowConstruction2 = _interopRequireDefault(_WindowConstruction);
 
-var _ZoneWindow = __webpack_require__(6);
+var _ZoneWindow = __webpack_require__(1);
 
 var _ZoneWindow2 = _interopRequireDefault(_ZoneWindow);
 
-var _HorizontalShadingScheme = __webpack_require__(2);
+var _HorizontalShadingScheme = __webpack_require__(3);
 
 var _HorizontalShadingScheme2 = _interopRequireDefault(_HorizontalShadingScheme);
 
-var _CeilingHeight = __webpack_require__(1);
+var _CeilingHeight = __webpack_require__(2);
 
 var _CeilingHeight2 = _interopRequireDefault(_CeilingHeight);
 
-var _ZoneDetail = __webpack_require__(4);
+var _ZoneDetail = __webpack_require__(5);
 
 var _ZoneDetail2 = _interopRequireDefault(_ZoneDetail);
 
@@ -900,7 +917,7 @@ var _FloorConstruction = __webpack_require__(0);
 
 var _FloorConstruction2 = _interopRequireDefault(_FloorConstruction);
 
-var _ZoneFloor = __webpack_require__(5);
+var _ZoneFloor = __webpack_require__(6);
 
 var _ZoneFloor2 = _interopRequireDefault(_ZoneFloor);
 
@@ -1074,6 +1091,10 @@ var _GroundFloor = __webpack_require__(10);
 
 var _GroundFloor2 = _interopRequireDefault(_GroundFloor);
 
+var _ZoneWindow = __webpack_require__(1);
+
+var _ZoneWindow2 = _interopRequireDefault(_ZoneWindow);
+
 var _utils = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1186,7 +1207,7 @@ var ResultsBuilder = function () {
             pergolaOffset = window.shading[0].pergolaOffset;
           }
 
-          return [zone.name, '', _Orientation2.default.Get(window.azimuth, reference), window.height, window.width, projection, window.headHeight, window.construction.name, window.ceilingHeight.height, eaveOffset, pergolaOffset, zone.onGroundFloor ? '0' : ''];
+          return [zone.name, '', _Orientation2.default.Get(window.azimuth, reference), window.height, window.width, projection, _ZoneWindow2.default.HeadHeight(window.height, eaveOffset), window.construction.name, window.ceilingHeight.height, eaveOffset, pergolaOffset, zone.onGroundFloor ? '0' : ''];
         });
 
         // An empty windowCsv needs to be returned inside an array itself, in order to work with the flatten function
@@ -1376,11 +1397,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _CeilingHeight = __webpack_require__(1);
+var _CeilingHeight = __webpack_require__(2);
 
 var _CeilingHeight2 = _interopRequireDefault(_CeilingHeight);
 
-var _HorizontalShadingScheme = __webpack_require__(2);
+var _HorizontalShadingScheme = __webpack_require__(3);
 
 var _HorizontalShadingScheme2 = _interopRequireDefault(_HorizontalShadingScheme);
 
@@ -1388,15 +1409,15 @@ var _LooksLike = __webpack_require__(7);
 
 var _LooksLike2 = _interopRequireDefault(_LooksLike);
 
-var _WindowConstruction = __webpack_require__(3);
+var _WindowConstruction = __webpack_require__(4);
 
 var _WindowConstruction2 = _interopRequireDefault(_WindowConstruction);
 
-var _ZoneWindow = __webpack_require__(6);
+var _ZoneWindow = __webpack_require__(1);
 
 var _ZoneWindow2 = _interopRequireDefault(_ZoneWindow);
 
-var _ZoneDetail = __webpack_require__(4);
+var _ZoneDetail = __webpack_require__(5);
 
 var _ZoneDetail2 = _interopRequireDefault(_ZoneDetail);
 
@@ -1404,7 +1425,7 @@ var _FloorConstruction = __webpack_require__(0);
 
 var _FloorConstruction2 = _interopRequireDefault(_FloorConstruction);
 
-var _ZoneFloor = __webpack_require__(5);
+var _ZoneFloor = __webpack_require__(6);
 
 var _ZoneFloor2 = _interopRequireDefault(_ZoneFloor);
 
