@@ -409,7 +409,9 @@ var HorizontalShadingScheme = function () {
   _createClass(HorizontalShadingScheme, [{
     key: 'getProjection',
     value: function getProjection() {
-      return parseFloat(this.getEaveProjection()) > parseFloat(this.getPergolaProjection()) ? this.getEaveProjection() : this.getPergolaProjection();
+      var projection = parseFloat(this.getEaveProjection()) > parseFloat(this.getPergolaProjection()) ? this.getEaveProjection() : this.getPergolaProjection();
+
+      return HorizontalShadingScheme.RoundValue(projection);
     }
   }, {
     key: 'getId',
@@ -452,6 +454,21 @@ var HorizontalShadingScheme = function () {
     key: 'Build',
     value: function Build(data) {
       return new HorizontalShadingScheme(data);
+    }
+
+    /**
+     * Round the provided value (projection) to the nearest 0.05
+     *
+     * @param {string} value The value to round
+     *
+     * @returns {string}
+     */
+
+  }, {
+    key: 'RoundValue',
+    value: function RoundValue(value) {
+      // See https://stackoverflow.com/a/10413602/1560593
+      return (Math.round(value * 20) / 20).toFixed(2);
     }
   }]);
 
@@ -1377,8 +1394,8 @@ var Orientation = function () {
 Orientation.CONST__N = { lower: 22, upper: 338 };
 Orientation.CONST__N_E = { lower: 23, upper: 67 };
 Orientation.CONST__E = { lower: 68, upper: 112 };
-Orientation.CONST__S_E = { lower: 113, upper: 187 };
-Orientation.CONST__S = { lower: 188, upper: 202 };
+Orientation.CONST__S_E = { lower: 113, upper: 157 };
+Orientation.CONST__S = { lower: 158, upper: 202 };
 Orientation.CONST__S_W = { lower: 203, upper: 247 };
 Orientation.CONST__W = { lower: 248, upper: 292 };
 Orientation.CONST__N_W = { lower: 293, upper: 337 };
