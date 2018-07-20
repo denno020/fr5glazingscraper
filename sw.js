@@ -1,5 +1,5 @@
 const appCacheNames = [
-  'glazing-scraper--short-term--002',
+  'glazing-scraper--short-term--003',
   'glazing-scraper--long-term--001'
 ];
 
@@ -10,8 +10,8 @@ const appCache = [
       '/',
       'index.html',
       'css/styles.aaecf0493cc4f9429e653bb74918d69a.css',
-      'js/scripts.014f8253de565fc1da02.js',
-      'js/worker.e0780de160ef7c223c35.js'
+      'js/scripts.636b098d6b1e5004eb69.js',
+      'js/worker.18a309d5c77a2383530b.js'
     ]
   },
   {
